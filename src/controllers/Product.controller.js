@@ -1,34 +1,68 @@
-const express = require('express');
-const produtoRoutes = express.Router();
 const { PrismaClient } = require('@prisma/client');
-
 const prisma = new PrismaClient();
+// -------------------- Product Controller --------------------
 
-
-// #################### PRODUTOS ####################
-
-// C
-produtoRoutes.post("/produtos", async (req, res) => {
+// C: Create
+exports.criarProdutos = async function (req, res){
     const { nome, preco, descricao, quantidade } = req.body;
+    const { user_id } = req.params;
+
+    // Verificar se o usuário existe
+    const intId = parseInt(user_id);
+
+    const usuario = await prisma.usuario.findUnique({
+        where: {
+            id: intId
+        }
+    });
+
+    if(!usuario){
+        res.status(400).json({error: 'Usuário não encontrado'});
+    }
+
+    // Criar o produto
     const produto = await prisma.produto.create({data: {
         nome,
         preco,
         descricao,
         quantidade,
+        usuarioId: intId
     }});
     res.status(201).json(produto);
-});
+}
 
-
-// R
-produtoRoutes.get("/produtos", async (req, res) => {
+// R: Read
+exports.listarProdutos = async function (req, res){
     const produtos = await prisma.produto.findMany();
     res.status(200).json(produtos);
-});
+}
 
+exports.listarProdutosDeUmUsuario = async function (req, res){
+    const { user_id } = req.params;
 
-// U
-produtoRoutes.put("/produtos", async (req, res) => {
+    const intId = parseInt(user_id);
+
+    const usuario = await prisma.usuario.findUnique({
+        where: {
+            id: intId
+        }
+    });
+
+    if(!usuario){
+        res.status(400).json({error: 'Usuário não encontrado'});
+    }
+
+    const produtos = await prisma.produto.findMany({
+        where: {
+            usuarioId: intId
+        }
+    });
+
+    res.status(200).json(produtos);
+}
+
+// U: Update
+exports.atualizarProduto = async function (req, res){
     const { id, nome, preco, descricao, quantidade } = req.body;
 
     if(!id){
@@ -55,10 +89,10 @@ produtoRoutes.put("/produtos", async (req, res) => {
         }
     });
     res.status(200).json(produto);
-});
+}
 
-// D
-produtoRoutes.delete("/produtos/:id", async (req, res) => {
+// D: Delete
+exports.deletarProduto = async function (req, res){
     const { id } = req.params;
 
     const intId = parseInt(id);
@@ -81,7 +115,5 @@ produtoRoutes.delete("/produtos/:id", async (req, res) => {
         where: { id: intId }
     });
     res.status(200).json(produto);
-});
+}
 
-
-module.exports = produtoRoutes;
