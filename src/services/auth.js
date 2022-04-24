@@ -7,5 +7,5 @@ exports.createPasswordHash = async (password) => {
 }
 
 exports.checkPassword = (user, password) => {
-    return bcrypt.compare(password, user.password);
+    bcrypt.compare(password, user.password);
 }
