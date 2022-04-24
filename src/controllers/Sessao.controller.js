@@ -37,7 +37,6 @@ exports.criarSessao = async function(req, res) {
             token
         });
 
-
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
