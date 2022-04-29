@@ -20,7 +20,7 @@ exports.criarSessao = async function(req, res) {
             res.status(401).json({ error: 'Usuário invalido' });
         }
 
-        if (!checkPassword(usuario, senha)) {
+        if (! checkPassword(usuario, senha)) {
             res.status(401).json({ error: 'Senha invalida' });
         }
 
@@ -36,7 +36,6 @@ exports.criarSessao = async function(req, res) {
             },
             token
         });
-
 
     } catch (error) {
         res.status(500).json({ error: error.message });
