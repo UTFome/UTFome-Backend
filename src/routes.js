@@ -16,6 +16,7 @@ const sessionController = require('./controllers/Sessao.controller');
 router.get('/hello', helloController.hello);
 
 // #################### AUTH ####################
+router.post('/usuarios', userController.criarUsuario);
 router.post('/sessoes', sessionController.criarSessao);
 router.use(authController.autenticar);
 
@@ -23,7 +24,6 @@ router.use(authController.autenticar);
 
 //              Controllers privados
 // #################### USER ####################
-router.post('/usuarios', userController.criarUsuario);
 router.get('/usuarios', userController.listarUsuarios);
 router.get('/usuarios/:id', userController.mostrarUsuario);
 router.put('/usuarios/:id', userController.atualizarUsuario);
