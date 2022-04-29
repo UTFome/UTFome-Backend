@@ -20,7 +20,7 @@ exports.criarSessao = async function(req, res) {
             res.status(401).json({ error: 'Usuário invalido' });
         }
 
-        if (!checkPassword(usuario, senha)) {
+        if (! checkPassword(usuario, senha)) {
             res.status(401).json({ error: 'Senha invalida' });
         }
 
