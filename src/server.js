@@ -11,6 +11,11 @@ app.use(routes);
 
 const PORT = process.env.PORT ? process.env.PORT : 3333;
 
+const HOST = process.env.HEROKU_APP_NAME ? `https://${process.env.HEROKU_APP_NAME}.herokuapp.com` : "http://localhost"
+
 app.listen(PORT, () => {
-    console.log("Server started on port " + PORT);
+    const portStr = PORT === 80 ? '' :  ':' + PORT
+    if (process.env.HEROKU_APP_NAME)
+        console.log('Servidor iniciado. Abra o navegador em ' + HOST)
+    else console.log('Servidor iniciado. Abra o navegador em ' + HOST + portStr)
 });
