@@ -18,6 +18,8 @@ router.get('/hello', helloController.hello);
 // #################### AUTH ####################
 router.post('/usuarios', userController.criarUsuario);
 router.post('/sessoes', sessionController.criarSessao);
+router.get('/produtos', productController.listarProdutos);
+
 router.use(authController.autenticar);
 
 
@@ -31,7 +33,6 @@ router.delete('/usuarios/:id', userController.deletarUsuario);
 
 // #################### PRODUCT ####################
 router.post('/produtos/:user_id', productController.criarProdutos);
-router.get('/produtos', productController.listarProdutos);
 router.get('/produtos/:user_id', productController.listarProdutosDeUmUsuario)
 router.put('/produtos', productController.atualizarProduto);
 router.delete('/produtos/:id', productController.deletarProduto);

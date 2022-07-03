@@ -18,6 +18,7 @@ exports.criarProdutos = async function (req, res){
 
     if(!usuario){
         res.status(400).json({error: 'Usuário não encontrado'});
+        return;
     }
 
     // Criar o produto
@@ -28,12 +29,15 @@ exports.criarProdutos = async function (req, res){
         quantidade,
         usuarioId: intId
     }});
+
+    console.log("Produto criado: " + JSON.stringify(produto))
     res.status(201).json(produto);
 }
 
 // R: Read
 exports.listarProdutos = async function (req, res){
     const produtos = await prisma.produto.findMany();
+    console.log(produtos)
     res.status(200).json(produtos);
 }
 

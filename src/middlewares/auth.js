@@ -8,7 +8,9 @@ exports.autenticar = async function (req, res, next) {
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
-        return res.status(401).json({ error: 'Token não informado' });
+        const msg = { error: 'Token não informado' }
+        console.log(msg)
+        return res.status(401).json(msg);
     }
 
     const [, token] = authHeader.split(' ');
